@@ -416,13 +416,12 @@ def test_root_mount(app, babel):
 
     # test static files when url='/'
     with app.test_request_context("/"):
-        rv = client.get(
+        with client.get(
             url_for(
                 "admin.static", filename="bootstrap/bootstrap4/css/bootstrap.min.css"
             )
-        )
-        rv.close()
-    assert rv.status_code == 200
+        ) as rv:
+            assert rv.status_code == 200
 
 
 def test_menu_links(app, admin):
